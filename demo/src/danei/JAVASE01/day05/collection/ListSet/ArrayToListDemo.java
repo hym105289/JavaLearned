@@ -1,4 +1,4 @@
-package danei.JAVASE01.day05.list;
+package danei.JAVASE01.day05.collection.ListSet;
 
 import java.util.ArrayList;
 import java.util.Arrays;
