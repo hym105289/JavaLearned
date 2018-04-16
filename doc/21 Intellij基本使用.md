@@ -1,22 +1,9 @@
 [TOC]
 http://blog.csdn.net/tiantiandjava/article/details/42269173
 
-#一、新建一个 Java 项目
 
-1、 建立一个 Java 项目
 
-New - Project - Java 
-
-项目建立完成后会在项目的文件目录下生成两个目录：
-
-- src：保存所有的 *.java 源文件；
-- bin：保存所有生成的 *.class 文件。
-
-2、新建一个类
-
-选中 src 文件夹，右键 - new - java class。
-
-#二、Intellij 功能
+#一、Intellij 功能
 
 1、写完代码后，编译器会自动的进行编译，如果有错误，编译器会提示。
 
