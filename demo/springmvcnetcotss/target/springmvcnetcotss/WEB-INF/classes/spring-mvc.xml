@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+
+    <!-- 读取数据库连接配置文件 -->
+    <util:properties id="db" location="classpath:db.properties"></util:properties>
+
+    <!-- 配置 DataSource,由于这是 javaee 提供的类,非自定义的类,所以无法通过注解由 spring自动管理对象 -->
+    <bean id="ds" class="org.apache.commons.dbcp2.BasicDataSource">
+        <property name="driverClassName" value="#{db.driver}"></property>
+        <property name="url" value="#{db.url}"></property>
+        <property name="username" value="#{db.username}"></property>
+        <property name="password" value="#{db.password}"></property>
+        <property name="initialSize" value="#{db.initSize}"></property>
+    </bean>
+
+    <!-- 配置组件扫描-->
+    <context:component-scan base-package="dao"></context:component-scan>
+    <context:component-scan base-package="service"></context:component-scan>
+    <context:component-scan base-package="controller"></context:component-scan>
+    <context:component-scan base-package="util"></context:component-scan>
+
+    <!--配置 mvc 注解扫描-->
+    <mvc:annotation-driven></mvc:annotation-driven>
+
+    <!-- 配置 视图解析器-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/"></property>
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+
+    <!-- 配置拦截器 -->
+    <!--如果有多个拦截器满足拦截要求,则按照拦截器配置的顺序,按照顺序从前往后执行-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!-- 拦截所有的 path 设为 "/**"-->
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/toLogin.do"></mvc:exclude-mapping>
+            <mvc:exclude-mapping path="/login.do"></mvc:exclude-mapping>
+            <mvc:exclude-mapping path="/checkCode.do"></mvc:exclude-mapping>
+            <bean class="interceptor.SomeInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+</beans>

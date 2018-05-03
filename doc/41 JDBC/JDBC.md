@@ -280,13 +280,13 @@ public class DBUtil {
     归还连接
     由连接池创建的连接,连接的 close 方法被连接池重写了,变成了归还连接的逻辑,即连接池会将连接的状态设置为空闲,并清除连接包含的任何数据.
      */
-    public static void close(BasicDataSource bds){
-        if (conn != null){
+    public static void close(Connection conn){
+        if (conn !=null){
             try {
                 conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
-                throw new RuntimeException("归还连接失败",e);
+                throw new RuntimeException("归还连接失败!",e);
             }
         }
     }
